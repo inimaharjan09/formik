@@ -1,119 +1,88 @@
-import { Button, Checkbox, Input, Option, Radio, Select, Textarea, Typography } from '@material-tailwind/react'
-import { Formik } from 'formik'
-import React from 'react'
+import React from 'react';
+import {
+  Typography,
+  Input,
+  Checkbox,
+  Button
+} from '@material-tailwind/react';
+import { useForm } from 'react-hook-form';
 
 export default function TodoAdd() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
-    <div>
+    <div className="flex items-center justify-center">
+      <div className="w-full max-w-md p-6">
+          <div className="flex justify-center mb-4">
+          </div>
 
-      <Formik
-        initialValues={{
-          title: '',
-          location: '',
-          colors: [],
-          country: '',
-          description: ''
-        }}
+          <Typography variant="h4" className="text-center font-bold mb-1">
+            Sign in to your account
+          </Typography>
+          <Typography className="text-center text-gray-500 mb-6 text-sm">
+            Or <a href="#" className="text-blue-500">start your 14-day free trial</a>
+          </Typography>
 
-        onSubmit={(val) => {
-          console.log(val);
-
-        }}
-
-      >
-
-
-        {({ handleChange, handleSubmit, values, setFieldValue, touched }) => {
-
-          return <form
-            onSubmit={handleSubmit}
-            className='max-w-[400px] space-y-5'>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <Input
-                value={values.title}
-                onChange={handleChange}
-                label='Title' name='title' />
+              <Typography variant="h7" className="font-strong">
+                Email address
+              </Typography>
+              <Input 
+                type="email"
+                {...register('email', { required: 'Email is required' })}
+                error={Boolean(errors.email)}
+              />
+              {errors.email && (
+                <Typography variant="small" className="text-red-500 mt-1">
+                  {errors.email.message}
+                </Typography>
+              )}
             </div>
 
-
-            <div className=''>
-              <Typography variant='h6'>Select One</Typography>
-              <div className="flex gap-10">
-                <Radio
-                  onChange={handleChange}
-                  color='red'
-                  name="location"
-                  value={'Indoor'}
-                  label="Indoor"
-                />
-                <Radio
-                  color='amber'
-                  onChange={handleChange}
-                  name="location"
-                  value={'Outdoor'}
-                  label="Outdoor"
-                />
-              </div>
-            </div>
-
+            {/* Password Field */}
             <div>
-              <Typography variant='h6'>Select Colors</Typography>
-              <div className="flex w-max gap-4">
-                <Checkbox
-                  name='colors'
-                  label='Blue'
-                  onChange={handleChange}
-                  color="blue"
-                  value={'blue'} />
-                <Checkbox
-                  name='colors'
-                  label='Red'
-                  onChange={handleChange}
-                  color="red"
-                  value={'red'} />
-                <Checkbox
-                  name='colors'
-                  onChange={handleChange}
-                  label='Green'
-                  color="green"
-                  value={'green'}
-                />
-              </div>
+              <Typography variant="small" className="mb-1 font-medium">
+                Password
+              </Typography>
+              <Input className=" !border-t-blue-gray-200"
+                type="password"
+                {...register('password', { required: 'Password is required' })}
+                error={Boolean(errors.password)}
+              />
+              {errors.password && (
+                <Typography variant="small" className="text-red-500 mt-1">
+                  {errors.password.message}
+                </Typography>
+              )}
             </div>
 
-            <div>
-              <div className="space-y-2">
-                <Typography variant='h6'>Select your Country</Typography>
-                <Select
-                  onChange={(e) => setFieldValue('country', e)}
-                  label="Select Country" name='country'>
-                  <Option value='Nepal'>Nepal</Option>
-                  <Option value='india'>India</Option>
-                  <Option value='china'>China</Option>
-
-                </Select>
-              </div>
+            <div className="flex items-center justify-between">
+              <Checkbox label="Remember me" />
+              <a href="#" className="text-sm text-blue-500">Forgot your password?</a>
             </div>
 
+            <Button type="submit" fullWidth className="bg-blue-600">
+              Sign in
+            </Button>
 
-            <div>
-              <Textarea
-                onChange={handleChange}
-                value={values.description}
-                label='Description' name='description' />
+            <div className="flex items-center justify-center gap-2 my-4">
+              <hr className="w-1/4 border-gray-300" />
+              <Typography variant="small" className="text-gray-500">
+                Or continue with
+              </Typography>
+              <hr className="w-1/4 border-gray-300" />
             </div>
-
-            <Button type='submit'>Submit</Button>
-
-
           </form>
-        }}
-
-
-      </Formik>
-
-
-
+      </div>
     </div>
-  )
+  );
 }
