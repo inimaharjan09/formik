@@ -1,11 +1,20 @@
 import { Button, Checkbox, Input, Option, Radio, Select, Textarea, Typography } from '@material-tailwind/react'
 import { Formik } from 'formik'
 import React from 'react'
+import * as Yup from 'yup';
+
+
+const todoSchema = Yup.object({
+  title: Yup.string().max(200).required(),
+  location: Yup.string().required(),
+  colors: Yup.array().min(1).required(),
+  country: Yup.string().required(),
+  description: Yup.string().min(10).max(500).required()
+});
 
 export default function TodoAdd() {
   return (
     <div>
-
       <Formik
         initialValues={{
           title: '',
@@ -14,16 +23,12 @@ export default function TodoAdd() {
           country: '',
           description: ''
         }}
-
         onSubmit={(val) => {
           console.log(val);
-
         }}
-
+        validationSchema={todoSchema}
       >
-
-
-        {({ handleChange, handleSubmit, values, setFieldValue, touched }) => {
+        {({ handleChange, handleSubmit, values, setFieldValue, touched, errors }) => {
 
           return <form
             onSubmit={handleSubmit}
@@ -33,9 +38,8 @@ export default function TodoAdd() {
                 value={values.title}
                 onChange={handleChange}
                 label='Title' name='title' />
+              {errors.title && <h1 className='text-pink-400'>{errors.title}</h1>}
             </div>
-
-
             <div className=''>
               <Typography variant='h6'>Select One</Typography>
               <div className="flex gap-10">
@@ -54,8 +58,8 @@ export default function TodoAdd() {
                   label="Outdoor"
                 />
               </div>
+              {errors.location && <h1 className='text-pink-400'>{errors.location}</h1>}
             </div>
-
             <div>
               <Typography variant='h6'>Select Colors</Typography>
               <div className="flex w-max gap-4">
@@ -79,8 +83,8 @@ export default function TodoAdd() {
                   value={'green'}
                 />
               </div>
+              {errors.colors && <h1 className='text-pink-400'>{errors.colors}</h1>}
             </div>
-
             <div>
               <div className="space-y-2">
                 <Typography variant='h6'>Select your Country</Typography>
@@ -90,30 +94,21 @@ export default function TodoAdd() {
                   <Option value='Nepal'>Nepal</Option>
                   <Option value='india'>India</Option>
                   <Option value='china'>China</Option>
-
                 </Select>
+                {errors.country && <h1 className='text-pink-400'>{errors.country}</h1>}
               </div>
             </div>
-
-
             <div>
               <Textarea
                 onChange={handleChange}
                 value={values.description}
                 label='Description' name='description' />
+              {errors.description && <h1 className='text-pink-400'>{errors.description}</h1>}
             </div>
-
             <Button type='submit'>Submit</Button>
-
-
           </form>
         }}
-
-
       </Formik>
-
-
-
     </div>
   )
 }
