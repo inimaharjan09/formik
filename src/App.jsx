@@ -3,10 +3,10 @@ import { createBrowserRouter } from 'react-router'
 import RootLayout from './components/RootLayout';
 import TodoPage from './pages/todo/TodoPage';
 import { RouterProvider } from 'react-router-dom';
-import * as Some from './sample';
+//import * as Some from './sample';
 
 export default function App() {
-  console.log(Some);
+  //console.log(Some);
 
   const router = createBrowserRouter([
     {

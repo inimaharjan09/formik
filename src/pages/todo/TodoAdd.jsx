@@ -3,8 +3,8 @@ import { Formik } from 'formik'
 import React from 'react'
 import * as Yup from 'yup';
 
-
 const todoSchema = Yup.object({
+  email: Yup.string().matches(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/, 'please provide valid email').max(200).required(),
   title: Yup.string().max(200).required(),
   location: Yup.string().required(),
   colors: Yup.array().min(1).required(),
@@ -17,6 +17,7 @@ export default function TodoAdd() {
     <div>
       <Formik
         initialValues={{
+          email: '',
           title: '',
           location: '',
           colors: [],
@@ -29,16 +30,22 @@ export default function TodoAdd() {
         validationSchema={todoSchema}
       >
         {({ handleChange, handleSubmit, values, setFieldValue, touched, errors }) => {
-
           return <form
             onSubmit={handleSubmit}
             className='max-w-[400px] space-y-5'>
             <div>
               <Input
+                value={values.email}
+                onChange={handleChange}
+                label='Email' name='email' />
+              {errors.email && touched.email && <h1 className='text-pink-400'>{errors.email}</h1>}
+            </div>
+            <div>
+              <Input
                 value={values.title}
                 onChange={handleChange}
                 label='Title' name='title' />
-              {errors.title && <h1 className='text-pink-400'>{errors.title}</h1>}
+              {errors.title && touched.title && <h1 className='text-pink-400'>{errors.title}</h1>}
             </div>
             <div className=''>
               <Typography variant='h6'>Select One</Typography>
@@ -58,7 +65,7 @@ export default function TodoAdd() {
                   label="Outdoor"
                 />
               </div>
-              {errors.location && <h1 className='text-pink-400'>{errors.location}</h1>}
+              {errors.location && touched.location && <h1 className='text-pink-400'>{errors.location}</h1>}
             </div>
             <div>
               <Typography variant='h6'>Select Colors</Typography>
@@ -83,7 +90,7 @@ export default function TodoAdd() {
                   value={'green'}
                 />
               </div>
-              {errors.colors && <h1 className='text-pink-400'>{errors.colors}</h1>}
+              {errors.colors && touched.colors && <h1 className='text-pink-400'>{errors.colors}</h1>}
             </div>
             <div>
               <div className="space-y-2">
@@ -95,7 +102,7 @@ export default function TodoAdd() {
                   <Option value='india'>India</Option>
                   <Option value='china'>China</Option>
                 </Select>
-                {errors.country && <h1 className='text-pink-400'>{errors.country}</h1>}
+                {errors.country && touched.country && <h1 className='text-pink-400'>{errors.country}</h1>}
               </div>
             </div>
             <div>
@@ -103,7 +110,7 @@ export default function TodoAdd() {
                 onChange={handleChange}
                 value={values.description}
                 label='Description' name='description' />
-              {errors.description && <h1 className='text-pink-400'>{errors.description}</h1>}
+              {errors.description && touched.description && <h1 className='text-pink-400'>{errors.description}</h1>}
             </div>
             <Button type='submit'>Submit</Button>
           </form>
