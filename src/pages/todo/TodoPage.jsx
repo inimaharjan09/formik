@@ -2,6 +2,7 @@ import React, { useActionState } from 'react'
 import TodoAdd from './TodoAdd'
 import { Button, Input } from '@material-tailwind/react'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 
 const handleSubmit=async(prevState, formData)=>{
@@ -12,9 +13,14 @@ const handleSubmit=async(prevState, formData)=>{
       title: formData.get('title'),
       detail: formData.get('detail'),
     });
-    return 'success';
+
+    //return 'success';
+    toast.success('Success fully added', {position:'top-right'})
   }
   catch(err){
+    //return null;
+    //console.log(err);
+    toast.error(`${err.response?.data}`)
   }
 
 }
@@ -24,7 +30,6 @@ export default function TodoPage() {
   //console.log(m);
   return (
     <div className='p-5'>
-
       {/* <TodoAdd /> */}
 
       <form action={formAction} className='max-w-[300px] space-y-4'>
