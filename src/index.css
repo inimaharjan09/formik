@@ -35,7 +35,7 @@
 /* base layer , component layer utitlities */
 
 @layer base {
-  h2 {
+  h1 {
     @apply text-2xl font-bold;
   }
 

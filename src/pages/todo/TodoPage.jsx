@@ -13,7 +13,6 @@ const handleSubmit=async(prevState, formData)=>{
       title: formData.get('title'),
       detail: formData.get('detail'),
     });
-
     //return 'success';
     toast.success('Success fully added', {position:'top-right'})
   }
@@ -30,9 +29,9 @@ export default function TodoPage() {
   //console.log(m);
   return (
     <div className='p-5'>
-      {/* <TodoAdd /> */}
+      <TodoAdd />
 
-      <form action={formAction} className='max-w-[300px] space-y-4'>
+      {/* <form action={formAction} className='max-w-[300px] space-y-4'>
         <div>
           <Input name='title' label='Title'></Input>
         </div>
@@ -40,7 +39,7 @@ export default function TodoPage() {
           <Input name='detail' label='Detail'></Input>
         </div>
         <Button type='submit'>Submit</Button>
-      </form>
+      </form> */}
 
     </div>
   )
