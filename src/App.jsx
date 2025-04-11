@@ -16,18 +16,7 @@ export default function App() {
       path: '/',
       element: <RootLayout />,
       children: [
-        {
-          index: true,
-          element: <TodoPage />
-        },
-        {
-          path: 'add-todo',
-          element: <TodoAdd />
-        },
-        {
-          path: 'edit-todo/:id',
-          element: <TodoEdit />
-        }
+        
       ]
     }
   ]);
