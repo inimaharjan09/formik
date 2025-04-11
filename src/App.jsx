@@ -4,12 +4,12 @@ import RootLayout from './components/RootLayout';
 import TodoPage from './pages/todo/TodoPage';
 import { RouterProvider } from 'react-router-dom';
 import TodoAdd from './pages/todo/TodoAdd';
+import TodoEdit from './pages/todo/TodoEdit';
 
-//import * as Some from './sample';
 
 export default function App() {
-  //console.log(Some);
-  //console.log(todoSlice);
+
+
 
   const router = createBrowserRouter([
     {
@@ -21,8 +21,12 @@ export default function App() {
           element: <TodoPage />
         },
         {
-          path:'add-todo',
+          path: 'add-todo',
           element: <TodoAdd />
+        },
+        {
+          path: 'edit-todo/:id',
+          element: <TodoEdit />
         }
       ]
     }

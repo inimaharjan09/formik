@@ -1,5 +1,5 @@
-@config "../tailwind.config.js";
 @import "tailwindcss";
+@config "../tailwind.config.js";
 
 @theme {
   /* --color-*: initial; */
@@ -8,7 +8,6 @@
 
   --text-headLarge: 50px;
   /* --text-xl: 50px; */
-
 
   /* --breakpoint-sm: 500px; */
 
@@ -31,28 +30,19 @@
   }
 }
 
-
 /* base layer , component layer utitlities */
 
 @layer base {
   h1 {
-    @apply text-2xl font-bold;
+    @apply text-xl font-bold;
   }
 
   button {
     @apply cursor-pointer;
   }
-
-  input {
-    @apply border-2 border-gray-500 w-[250px] px-3 py-[2px];
-  }
 }
 
 @layer components {
-
-
-
-
   .btn {
     @apply bg-black px-5 text-white rounded-2xl py-3 ring-2 ring-purple-500;
   }
@@ -61,7 +51,6 @@
     @apply border-2 my-2 p-5 shadow-2xl;
   }
 }
-
 
 @utility flex-center {
   @apply flex justify-center items-center;

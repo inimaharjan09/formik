@@ -1,46 +1,36 @@
-import React, { useActionState } from 'react'
-import TodoAdd from './TodoAdd'
-import { Button, Input } from '@material-tailwind/react'
-import axios from 'axios'
-import toast from 'react-hot-toast'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { TodoCard } from './TodoCard';
+import { Button } from '@material-tailwind/react';
+import { reset } from './todoSlice';
 
 
-const handleSubmit=async(prevState, formData)=>{
-  //console.log(prevState);
-  //console.log(formData.get('title'));
-  try{
-    await axios.post('https://67f1ee5fc733555e24ae56e4.mockapi.io/blogs',{
-      title: formData.get('title'),
-      detail: formData.get('detail'),
-    });
-    //return 'success';
-    toast.success('Success fully added', {position:'top-right'})
-  }
-  catch(err){
-    //return null;
-    //console.log(err);
-    toast.error(`${err.response?.data}`)
-  }
-
-}
 
 export default function TodoPage() {
-  const [result, formAction, pending] = useActionState(handleSubmit,null);
-  //console.log(m);
+
+  const { todos } = useSelector((state) => state.todoSlice);
+  const { posts } = useSelector((state) => state.postSlice);
+  const dispatch = useDispatch();
+
   return (
-    <div className='p-5'>
-      <TodoAdd />
+    <div className='space-y-7'>
+      <div className='grid grid-cols-3 gap-14 '>
 
-      {/* <form action={formAction} className='max-w-[300px] space-y-4'>
-        <div>
-          <Input name='title' label='Title'></Input>
-        </div>
-        <div>
-          <Input name='detail' label='Detail'></Input>
-        </div>
-        <Button type='submit'>Submit</Button>
-      </form> */}
+        {todos.length < 1 && <h1>Add Some Todos</h1>}
+        {todos.map((todo, i) => {
+          return <TodoCard key={todo.id} todo={todo} index={i} />;
+        })}
 
+      </div>
+
+      {posts.map((post, i) => {
+        return <div key={i}>
+          <h1>{post.title}</h1>
+          <p>{post.detail}</p>
+        </div>;
+      })}
+
+      <Button onClick={() => dispatch(reset())}>Reset</Button>
     </div>
   )
 }
