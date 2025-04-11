@@ -8,7 +8,7 @@ export default function Header() {
       <h1>Redux ToolKit</h1>
 
       <nav>
-        <NavLink to={'/add-todo'}>Add Todo</NavLink>
+        
       </nav>
 
     </div>
