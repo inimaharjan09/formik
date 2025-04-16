@@ -14,7 +14,5 @@ createRoot(document.getElementById('root')).render(
       <App />
       <Toaster />
     </Provider>
-
   </>
-
 )

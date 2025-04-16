@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router'
 
 
 export default function Header() {
@@ -8,8 +9,10 @@ export default function Header() {
       <h1>Redux ToolKit</h1>
 
       <nav>
-        
-      </nav>
+
+<NavLink to={'/add-blog'}>Add Blog</NavLink>
+
+</nav>
 
     </div>
   )
