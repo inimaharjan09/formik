@@ -1,28 +1,41 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
+
+
+
 export const productApi = createApi({
-    reducerPath:'productApi',
-    baseQuery: fetchBaseQuery({baseUrl:'https://dummyjson.com/products'}),
-    endpoints:(builder )=>({
-        getAllProducts: builder.query({
-            query: (q)=>({
-                url:'/',
-                method:'GET'
-            }),
-        }),
-        getSingleProducts: builder.query({
-            query: (q)=>({
-                url:`/${id}`,
-                method:'GET'
-            })
-        }),
-        addProduct: builder.mutation({
-            query: (data)=>({
-                url:'/add',
-                body: data,
-                method:'POST'
-            })
-        })
+  reducerPath: 'productApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/products' }),
+
+  endpoints: (builder) => ({
+
+    getAllProducts: builder.query({
+      query: (queryData) => ({
+        url: '/',
+        method: 'GET',
+        params: queryData
+      }),
+
+    }),
+
+    getSingleProduct: builder.query({
+      query: (id) => ({
+        url: `/${id}`,
+        method: 'GET'
+      })
+    }),
+
+    addProduct: builder.mutation({
+      query: (data) => ({
+        url: '/add',
+        body: data,
+        method: 'POST'
+      })
     })
+
+
+  })
+
 });
-export const {useGetAllProductsQuery, useLazyGetAllProductsQuery, } = productApi;
+
+export const { useGetAllProductsQuery, useLazyGetAllProductsQuery } = productApi;

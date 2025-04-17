@@ -7,21 +7,29 @@ export default function BlogList() {
   if (isLoading) {
     return <h1>Loading....</h1>
   }
+
   if (error) {
     return <h1>{error.message}</h1>
   }
-  //console.log(data);
+
+
   return (
     <div>
-      {data.map((blogs) => {
-        return <div key={blogs.id} className='flex gap-16 mb-4'>
+
+      {data && data.map((blog) => {
+        return <div key={blog.id} className='flex gap-16 mb-4'>
           <div>
-            <h1>{blogs.title}</h1>
-            <p className='text-gray-700'>{blogs.detail}</p>
+            <h1>{blog.title}</h1>
+            <p className='text-gray-700'>{blog.detail}</p>
           </div>
-          <RemoveBlog />
+
+          <RemoveBlog id={blog.id} />
+
+
+
         </div>
       })}
+
     </div>
   )
 }
