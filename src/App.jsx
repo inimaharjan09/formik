@@ -2,12 +2,10 @@ import React from 'react'
 import { createBrowserRouter } from 'react-router'
 import RootLayout from './components/RootLayout';
 import { RouterProvider } from 'react-router-dom';
-import ProductList from './features/product/ProductList';
-import AddBlog from './features/product/blog/AddBlog.jsx';
+import HomePage from './features/home/HomePage.jsx';
 
 
 export default function App() {
-
 
   const router = createBrowserRouter([
     {
@@ -16,13 +14,8 @@ export default function App() {
       children: [
         {
           index: true,
-          element: <ProductList />
+          element: <HomePage/>
         },
-        {
-          path: 'add-blog',
-          element: <AddBlog />
-        },
-
       ]
     }
   ]);
