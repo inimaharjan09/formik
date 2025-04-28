@@ -1,5 +1,9 @@
 
 import mongoose from "mongoose";
+export const categories=["Men's clothing", "Women's clothing", "Jewelery"];
+export const brands= ["Apple", "Samsung", "Oppo", "Google"];
+
+
 
 const productSchema= new mongoose.Schema({
     title: {
@@ -19,18 +23,22 @@ const productSchema= new mongoose.Schema({
         type: String,
         required: true
     },
+    rating: {
+        type: Number,
+        default: 0
+    },
     category: {
         type: String,
-        enum: ["Men's clothing", "Women's clothing", "Jewelery"],
+        enum: categories,
         required: true
 
     },
     brand:{
         type: String,
-        enum:["Apple", "Samsung", "Oppo", "Google"],
+        enum: brands,
         required: true
     }
-});
+}, {timestamps: true });
 
 const Product= mongoose.model('Product', productSchema);
 
