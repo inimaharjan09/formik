@@ -1,5 +1,14 @@
 
 import Product, { brands, categories } from "../models/Product.js";
+import fs from 'fs';
+import mongoose from "mongoose";
+
+export const getTop = (req, res, next) => {
+
+    req.query.rating = { $gt: 4.5} ;
+    req.query.limit =5;
+    next();
+}
 
 // Get all products
 export const getProducts = async (req, res) => {
@@ -14,10 +23,13 @@ export const getProducts = async (req, res) => {
         // console.log(qryStr.replace(/\b(gte|gt|lte|lt|eq)\b/g, match => `$${match}`))
         // console.log(queryObject);
         // {rating: {$gt: 4}}
+        console.log(req.query);
 
+        
+        let query = Product.find(queryObject);
         if(req.query.search){
             //queryObject.title={ $refwx: req.query.search, $options: i};
-            const searchText = req.query.search;
+            const searchText = req.query.search.toLowerCase();
             if(categories.includes(searchText)){
                 queryObject.category = { $regex: searchText, $options: 'i'};
             }
@@ -27,8 +39,6 @@ export const getProducts = async (req, res) => {
             queryObject.title={$regex: searchText, $options: 'i'};
             }
             }
-        
-        let query = Product.find(queryObject);
     
         if (req.query.sort) {
             //console.log(req.query.sort.split(',').join(' '));
@@ -43,47 +53,67 @@ export const getProducts = async (req, res) => {
 
         const page = req.query.page || 1;
         const limit = req.query.limit || 10;
-        const skip = (page -1) *10;
-
-        const products = await query.skip(skip).limit(limit);;
-
-        
+        const skip = (page - 1) * 10;
+    
+        const products = await query.skip(skip).limit(limit);
+    
         return res.status(200).json(products);
-    } catch (err) {
-        return res.status(500).json({message: `${err}`});
+      } catch (err) {
+        return res.status(500).json({ message: `${err}` });
+      }
     }
-};
-
-// Get a single product (you might want to implement logic here later)
-export const getProduct = (req, res) => {
-    return res.status(200).json({ message: 'getProduct' });
-};
-
+    
+    export const getProduct = (req, res) => {
+      return res.status(200).json({ message: 'addProducts' });
+    }
+    
 // Add a new product
 export const addProducts = async (req, res) => {
-    const { title, description, price, image, category, brand } = req.body;
-    
-    try { 
-        const product = await Product.create({
-            title,
-            description,
-            price,
-            image,
-            category,
-            brand
-        });
-        return res.status(201).json({ message: 'Product added successfully', product });
-    } catch (err) {
-        return res.status(400).json({ message: err.message });
-    }
-};
+  
+    const { title, description, price, category, brand } = req.body;
+    console.log(req.body);
+    try {
 
+      await Product.create({ title,
+        description,
+        price,
+        image:req.image,
+        category,
+        brand
+      });
+
+      return res.status(200).json({ message: 'product added successfully' });
+    } catch (err) {
+      fs.unlink(`./uploads${req.image}`, (imageErr)=> {
+        return res.status(400).json({ message: `${err}` });
+      });
+    }
+  }
+  
 // Update a product
 export const updateProducts = (req, res) => {
     return res.status(200).json({ message: 'updateProducts' });
 };
 
 // Delete a product
-export const deleteProducts = (req, res) => {
-    return res.status(200).json({ message: 'deleteProducts' });
+export const deleteProducts = async (req, res) => {
+  const product = req.product;
+  //const {id} = req.params;
+  try {
+  //   if(!mongoose.isValidObjectId(id)) return res.status(400).json({
+  //   message: 'invalid product id'});
+
+  //  const isExist =await Product.findById(id);
+   if(!isExist) return res.status(404).json({message: 'product not found'});
+   fs.unlink(`./uploads${product.image}`, (imageErr)=> {
+    if(imageErr) return res.status(400).json({message: `${imageErr}`});
+  //isExist.deleteOne();
+  
+   })
+   await Product.findByIdAndDelete(product._id);
+    return res.status(200).json({ message: 'product delete successfully' });
+  } catch (err) {
+      return res.status(400).json({ message: `${err}` });
+       
+  }
 };

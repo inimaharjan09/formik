@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import productRoutes from './routes/productRoutes.js';
 import mongoose from 'mongoose';
+import fileUpload from 'express-fileupload';
 
 const app=express();
 //console.log(app);
@@ -19,12 +20,17 @@ mongoose.connect('mongodb+srv://inima09:June14inima@cluster0.rmpnkba.mongodb.net
 //middleware
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload({
+    limits: { fileSize: 5 * 1024 *1024 },
+    abortonLimit: true
+}));
 
 app.get('/', (req, res)=>{
     // const {q} = req.query;
     // console.log(q);
     //console.log(req.query);
-    console.log(req.body);
+    //console.log(req.body);
     return res.status(200).json({
         message: 'Welcome to coding'
     });
@@ -33,6 +39,6 @@ app.get('/', (req, res)=>{
 app.use(productRoutes);
 
 //start the server
-app.listen(5000, ()=>{
-    console.log('server is listening');
-});
+// app.listen(5000, ()=>{
+//     console.log('server is listening');
+// });
