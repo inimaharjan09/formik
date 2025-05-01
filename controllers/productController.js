@@ -1,7 +1,7 @@
 
 import Product, { brands, categories } from "../models/Product.js";
 import fs from 'fs';
-import mongoose from "mongoose";
+
 
 export const getTop = (req, res, next) => {
 
@@ -91,20 +91,38 @@ export const addProducts = async (req, res) => {
   }
   
 // Update a product
-export const updateProducts = (req, res) => {
-    return res.status(200).json({ message: 'updateProducts' });
-};
+export const updateProducts = async (req, res) => {
+  const product= req.product;
+  const { title, description, price, category, brand } = req.body;
+    console.log(req.body);
+    try {
+      product.title = title || product.title;
+      product.description = description || product.description;
+      product.price = price || product.price;
+      product.category = category || product.category;
+      product.brand = brand || product.brand;
+      if (req.image) {
+        fs.unlink(`./uploads${product.image}`, async (err) => {
+          product.image = req.image;
+          await product.save();
+        })
+      } else {
+        await product.save();
+      }
+      return res.status(200).json({ message: 'product updated successfully' });
+    } catch (err) {
+      fs.unlink(`./uploads${req.image}`, (imageErr)=> {
+        return res.status(400).json({ message: `${err}` });
+      });
+    }
+  }
 
 // Delete a product
 export const deleteProducts = async (req, res) => {
   const product = req.product;
   //const {id} = req.params;
   try {
-  //   if(!mongoose.isValidObjectId(id)) return res.status(400).json({
-  //   message: 'invalid product id'});
-
   //  const isExist =await Product.findById(id);
-   if(!isExist) return res.status(404).json({message: 'product not found'});
    fs.unlink(`./uploads${product.image}`, (imageErr)=> {
     if(imageErr) return res.status(400).json({message: `${imageErr}`});
   //isExist.deleteOne();
@@ -113,7 +131,6 @@ export const deleteProducts = async (req, res) => {
    await Product.findByIdAndDelete(product._id);
     return res.status(200).json({ message: 'product delete successfully' });
   } catch (err) {
-      return res.status(400).json({ message: `${err}` });
-       
+      return res.status(400).json({ message: `${err}` }); 
   }
 };
