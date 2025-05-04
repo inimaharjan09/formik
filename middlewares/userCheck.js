@@ -18,6 +18,6 @@ export const adminCheck =(req, res, next)=> {
     if (req.role === 'Admin') {
         next();
       } else {
-        return res.status(401).json({ message: 'you are not authorised' });
+        return res.status(401).json({ message: 'you are admin' });
       }
 }
