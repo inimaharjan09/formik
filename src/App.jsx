@@ -2,8 +2,7 @@ import React from 'react'
 import { createBrowserRouter } from 'react-router'
 import RootLayout from './components/RootLayout';
 import { RouterProvider } from 'react-router-dom';
-import HomePage from './features/home/HomePage.jsx';
-
+import Login from './features/authentication/Login';
 
 export default function App() {
 
@@ -12,9 +11,11 @@ export default function App() {
       path: '/',
       element: <RootLayout />,
       children: [
-        // {
-        //   index: true,
-        // },
+        {
+          index: true,
+          element: <Login/>
+        },
+
       ]
     }
   ]);
