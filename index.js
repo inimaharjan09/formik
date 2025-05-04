@@ -3,12 +3,13 @@ import morgan from 'morgan';
 import productRoutes from './routes/productRoutes.js';
 import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
+import userRoutes from './routes/userRoutes.js';
 
 const app = express();
 //console.log(app);
 
 //data base connect
-mongoose.connect('mongodb+srv://inima09:June14inima@cluster0.rmpnkba.mongodb.net/').then((val) =>{
+mongoose.connect('mongodb+srv://inima09:June14inima@cluster0.rmpnkba.mongodb.net/shops').then((val) =>{
     //console.log(val);
     app.listen(5000, ()=>{
         console.log('database connected and server is listening');
@@ -26,6 +27,8 @@ app.use(fileUpload({
     abortonLimit: true
 }));
 
+app.use(express.static('uploads'));
+
 app.get('/', (req, res)=>{
     // const {q} = req.query;
     // console.log(q);
@@ -36,9 +39,5 @@ app.get('/', (req, res)=>{
     });
 });
 
-app.use(productRoutes);
-
-//start the server
-// app.listen(5000, ()=>{
-//     console.log('server is listening');
-// });
+app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);

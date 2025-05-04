@@ -3,18 +3,18 @@ import { addProducts, deleteProducts, getProduct, getProducts, getTop, updatePro
 import { fileCheck, updateFileCheck } from '../middlewares/checkFile.js';
 import { notAllowed } from '../utils/shareFunc.js';
 import { checkId } from '../middlewares/checkId.js';
-import validate from 'express-joi-validation';
-import { productValSchema } from '../utils/validator.js';
+import { productValSchema, validates } from '../utils/validator.js';
+import { userCheck } from '../middlewares/userCheck.js';
 
-const validator = validate.createValidator({});
+
 
 const router = express.Router();
 
-router.route('/products').get(getProducts).post(fileCheck, addProducts, validator.body(productValSchema)).all(notAllowed);
+router.route('/').get(getProducts).post(userCheck, fileCheck, addProducts, validates.body(productValSchema)).all(notAllowed);
 
-router.route('/products/getTop-5').get(getTop, getProducts).post(addProducts).all(notAllowed);
+router.route('/getTop-5').get(getTop, getProducts).post(addProducts).all(notAllowed);
 
-router.route('/products/:id').get(getProduct).patch(checkId, updateFileCheck, updateProducts).delete(checkId, deleteProducts).all(notAllowed);
+router.route('/:id').get(getProduct).patch(checkId, updateFileCheck, updateProducts).delete(checkId, deleteProducts).all(notAllowed);
 
 
 export default router;
