@@ -12,10 +12,9 @@ export default function App() {
       path: '/',
       element: <RootLayout />,
       children: [
-        {
-          index: true,
-          element: <HomePage/>
-        },
+        // {
+        //   index: true,
+        // },
       ]
     }
   ]);
