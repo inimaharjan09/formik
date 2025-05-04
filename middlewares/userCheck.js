@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken"
 
 export const userCheck =(req, res, next)=> {
-  //console.log(req.headers); 
-
     const token = req.headers.authorization;
     const decodedToken = jwt.decode(token, 'secret');
     if (decodedToken) {

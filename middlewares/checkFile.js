@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
-//hello
+
 const supportedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
+
 export const fileCheck = (req, res, next) => {
-  const file = req.files.image;
-  console.log(file);
+  const file = req.files?.image;
+  //console.log(file);
 
   if (file) {
     if (supportedTypes.includes(file.mimetype)) {
@@ -23,7 +24,7 @@ export const fileCheck = (req, res, next) => {
 }
 
 export const updateFileCheck = (req, res, next) => {
-  const file = req.files.image;
+  const file = req.files?.image;
   console.log(file);
 
   if (file) {
