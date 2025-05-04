@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 
 export const userCheck =(req, res, next)=> {
+  //console.log(req.headers); 
 
     const token = req.headers.authorization;
     const decodedToken = jwt.decode(token, 'secret');
@@ -18,6 +19,6 @@ export const adminCheck =(req, res, next)=> {
     if (req.role === 'Admin') {
         next();
       } else {
-        return res.status(401).json({ message: 'you are admin' });
+        return res.status(401).json({ message: 'you are authorised' });
       }
 }
