@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { mainApi } from "./mainApi";
+import { userSlice } from "../features/user/userSlice";
+
 
 
 export const store=configureStore({
     reducer:{
-        // [productApi.reducerPath]: productApi.reducer,
-        // [blogApi.reducerPath]: blogApi.reducer
+        [mainApi.reducerPath]: mainApi.reducer,
+        [userSlice.name]: userSlice.reducer
     },
-    // middleware: (getDefaultMiddleware)=> getDefaultMiddleware().concat([
-    //     //extra features caching / invalidation / polling
-    //     productApi.middleware,
-    //     blogApi.middleware
-    // ])
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat([
+            mainApi.middleware
+        ])
 });
