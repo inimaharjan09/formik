@@ -17,7 +17,7 @@ export const getProducts = async (req, res) => {
         const excludeFields = ['sort', 'page', 'limit', 'fields', 'skip', 'search']
 
         excludeFields.forEach((label) => delete queryObject[label])
-        delete queryObject['sort'];
+        //delete queryObject['sort'];
         // let qryStr = JSON.stringify(queryObject);
     
         // console.log(qryStr.replace(/\b(gte|gt|lte|lt|eq)\b/g, match => `$${match}`))
@@ -55,7 +55,7 @@ export const getProducts = async (req, res) => {
         const limit = req.query.limit || 10;
         const skip = (page - 1) * 10;
     
-        const products = await query.skip(skip).limit(limit);
+        const products = await query.skip(skip).limit(limit).select('title rating price image');
     
         return res.status(200).json(products);
       } catch (err) {

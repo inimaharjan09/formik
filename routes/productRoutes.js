@@ -11,7 +11,7 @@ const router = express.Router();
 router.route('/').get(getProducts).post(userCheck, adminCheck, fileCheck, addProducts,
     validates.body(productValSchema)).all(notAllowed);
 
-router.route('/getTop-5').get(getTop, getProducts).post(addProducts).all(notAllowed);
+router.route('/Top-5').get(getTop, getProducts).all(notAllowed);
 
 router.route('/:id').get(getProduct).patch(checkId, userCheck, adminCheck, updateFileCheck, updateProducts).delete( userCheck, adminCheck, checkId, deleteProducts).all(notAllowed);
 
