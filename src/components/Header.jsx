@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  Navbar,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
+import { Navbar, Typography, Button, } from "@material-tailwind/react";
 import ProfileMenu from "./ProfileMenu";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router";
-
 
 export default function Header() {
   const { user } = useSelector((state) => state.userSlice);
@@ -22,17 +17,10 @@ export default function Header() {
         >
           Redux Shop
         </Typography>
-
-
         {user ? <ProfileMenu user={user} /> : <NavLink to={'/login'}>  <Button size="sm" variant="text">
           <span>Log In</span>
         </Button> </NavLink>}
-
-
-
-
       </div>
-
     </Navbar>
   );
 }

@@ -13,7 +13,7 @@ export default function Login() {
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   return (
-    <div className='max-w-[400px]'>
+    <div className='max-w-[400px] mt-10 mx-auto'>
 
       <Formik
         initialValues={{

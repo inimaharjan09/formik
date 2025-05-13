@@ -13,7 +13,7 @@ export default function SignUp() {
   const [userSignUp, { isLoading }] = useUserSignUpMutation();
   const [show, setShow] = useState(false);
   return (
-    <div className='max-w-[400px]'>
+    <div className='max-w-[400px] mt-20 mx-auto'>
 
       <Formik
         initialValues={{
