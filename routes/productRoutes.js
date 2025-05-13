@@ -1,5 +1,5 @@
 import express from 'express';
-import { addProducts, deleteProducts, getProduct, getProducts, getTop, updateProducts} from '../controllers/productController.js';
+import {  removeProduct, getProduct, getProducts, getTop, updateProduct, addProduct} from '../controllers/productController.js';
 import { fileCheck, updateFileCheck } from '../middlewares/checkFile.js';
 import { notAllowed } from '../utils/shareFunc.js';
 import { checkId } from '../middlewares/checkId.js';
@@ -8,12 +8,13 @@ import { adminCheck, userCheck } from '../middlewares/userCheck.js';
 
 const router = express.Router();
 
-router.route('/').get(getProducts).post(userCheck, adminCheck, fileCheck, addProducts,
+router.route('/').get(getProducts).post(userCheck, adminCheck, fileCheck, addProduct,
     validates.body(productValSchema)).all(notAllowed);
 
 router.route('/Top-5').get(getTop, getProducts).all(notAllowed);
 
-router.route('/:id').get(getProduct).patch(checkId, userCheck, adminCheck, updateFileCheck, updateProducts).delete( userCheck, adminCheck, checkId, deleteProducts).all(notAllowed);
+router.route('/:id').get(checkId, getProduct).patch(checkId, userCheck, adminCheck,
+    updateFileCheck,updateProduct).delete( userCheck, adminCheck, checkId, removeProduct).all(notAllowed);
 
 
 export default router;

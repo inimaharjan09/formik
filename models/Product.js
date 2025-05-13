@@ -2,8 +2,6 @@ import mongoose from "mongoose";
 export const categories=["Men's clothing", "Women's clothing", "Jewelery"];
 export const brands= ["Apple", "Samsung", "Oppo", "Google"];
 
-
-
 const productSchema= new mongoose.Schema({
     title: {
         type: String,

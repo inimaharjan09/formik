@@ -64,11 +64,16 @@ export const getProducts = async (req, res) => {
     }
     
     export const getProduct = (req, res) => {
-      return res.status(200).json({ message: 'addProducts' });
+      try{
+        return res.status(200).json(req.product);
+
+      }catch(err){
+        return res.status(500).json({message: `${err}`});
+      }
     }
     
 // Add a new product
-export const addProducts = async (req, res) => {
+export const addProduct = async (req, res) => {
   
     const { title, description, price, category, brand } = req.body;
     console.log(req.body);
@@ -91,7 +96,7 @@ export const addProducts = async (req, res) => {
   }
   
 // Update a product
-export const updateProducts = async (req, res) => {
+export const updateProduct = async (req, res) => {
   const product= req.product;
   const { title, description, price, category, brand } = req.body;
     console.log(req.body);
@@ -118,7 +123,7 @@ export const updateProducts = async (req, res) => {
   }
 
 // Delete a product
-export const deleteProducts = async (req, res) => {
+export const removeProduct = async (req, res) => {
   const product = req.product;
   //const {id} = req.params;
   try {
