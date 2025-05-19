@@ -52,7 +52,7 @@ export default function ProductEditForm( { product } ) {
               formData.append('image', val.image);
               await updateProduct({
                 id: product._id,
-                token: user.token,
+                token: user?.token,
                 body: formData
               }).unwrap();
             } else {

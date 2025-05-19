@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCartsFromLocal, setCartsToLocal } from "../local/local";
+import { clearCartsFromLocal, getCartsFromLocal, setCartsToLocal } from "../local/local";
 
 
 
@@ -33,12 +33,18 @@ export const cartSlice = createSlice({
     },
 
     removeFromCart: (state, action) => {
-      state.carts = state.carts.filter((cart) => cart._id !== action.payload._id);
+      state.carts = state.carts.filter((cart) => cart._id !== action.payload);
       setCartsToLocal(state.carts);
     },
+    clearCart: (state) => {
+      state.carts = [];
+      clearCartsFromLocal();
+      
+
+    }
 
   }
 })
 
-export const { setToCart, addToCart, updateCart, removeFromCart } = cartSlice.actions;
+export const { setToCart, addToCart, updateCart, removeFromCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

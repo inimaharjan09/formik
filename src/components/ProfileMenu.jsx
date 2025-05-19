@@ -1,11 +1,5 @@
 import React, { useState } from 'react'
-import {
-  UserCircleIcon,
-  ChevronDownIcon,
-  DocumentChartBarIcon,
-  ShoppingCartIcon,
-  PowerIcon,
-} from "@heroicons/react/24/solid";
+import { UserCircleIcon, ChevronDownIcon, DocumentChartBarIcon, ShoppingCartIcon, PowerIcon, } from "@heroicons/react/24/solid";
 import { Avatar, Button, Menu, MenuHandler, MenuItem, MenuList, Typography } from '@material-tailwind/react';
 import { useDispatch } from 'react-redux';
 import { removeUser } from '../features/user/userSlice';
@@ -87,9 +81,14 @@ export default function ProfileMenu({ user }) {
                     dispatch(removeUser());
                     break;
                   case 'Admin Dashboard':
-                    nav('/admin-page');
+                    nav('/admin/dashboard');
                     break;
-
+                    case 'Cart':
+                      nav('/cart');
+                        break;
+                    case 'Profile':
+                      nav('/user/profile');
+                      break;
                 }
                 closeMenu();
 

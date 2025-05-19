@@ -48,7 +48,7 @@ export default function ProductAddForm() {
           try {
             await addProduct({
               body: formData,
-              token: user.token
+              token: user?.token
             }).unwrap();
             toast.success('successfully added');
             nav(-1);

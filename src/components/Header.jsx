@@ -1,4 +1,3 @@
-import React from "react";
 import { Navbar, Typography, Button, } from "@material-tailwind/react";
 import ProfileMenu from "./ProfileMenu";
 import { useSelector } from "react-redux";

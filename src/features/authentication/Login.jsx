@@ -77,7 +77,7 @@ export default function Login() {
       <Typography color="gray" className="mt-6 text-center font-normal">
         Don't have an account?{" "}
         <Button
-          onClick={() => nav('/signup')}
+          onClick={() => nav('/sign-up')}
           variant='text' className="font-medium text-gray-900 px-2">
           Sign Up
         </Button>

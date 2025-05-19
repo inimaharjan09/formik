@@ -1,17 +1,41 @@
-import { Avatar, Card, IconButton, Typography } from '@material-tailwind/react';
+import { Avatar, Button, Card, IconButton, Typography } from '@material-tailwind/react';
 import React from 'react'
 import { baseUrl } from "../../app/mainApi";
 import { useDispatch, useSelector } from 'react-redux';
-import { setToCart } from "./cartSlice";
+import { clearCart, removeFromCart, setToCart } from "./cartSlice";
+import { useAddOrderMutation } from '../orders/orderApi';
+import toast from 'react-hot-toast';
 
 
 const TABLE_HEAD = ["Items", "Price", "Quantity", "Total"];
 
 export default function CartPage() {
     const { carts } = useSelector((state) => state.cartSlice);
+    const { user} = useSelector((state) => state.userSlice);
+    const totalAmount = carts.reduce((a, b) => a + b.price * b.qty, 0);
+    const dispatch = useDispatch();
+    const [addOrder, {isLoading}] = useAddOrderMutation();
+    const handleOrder = async () => {
+      try {
+        await addOrder({
+          token: user.token,
+          body: {
+            totalAmount,
+            orderItems: carts,
+          }
+
+        }).unwrap();
+        dispatch(clearCart());
+        toast.success('Order place successfully');
+      } catch (err) {
+        toast.error(err.data?.message || err.data)
+      }
+    } 
 
   return (
     <div className="p-5">
+      {carts.length === 0 && <h1 className='text-center text-3xl'>No Items in Cart</h1>}
+      {carts.length> 0 && <div>
 
 
       <Card className="h-full w-full overflow-scroll">
@@ -68,10 +92,16 @@ export default function CartPage() {
 
                   </td>
                   <td className={classes}>
-                    <div>
+                    <div className="flex items-center">
                       <Typography>
                         Rs. {price * qty}
                       </Typography>
+                      <IconButton
+                      onClick={()=> dispatch(removeFromCart(_id))}
+                      variant='text'>
+                        <i className='fas fa-close'/>
+
+                      </IconButton>
 
                     </div>
 
@@ -81,9 +111,16 @@ export default function CartPage() {
             })}
           </tbody>
         </table>
+        
       </Card>
-
-
+      <div className='mt-6 space-y-4 flex justify-end flex-col items-end'>
+          <h1>Total Amount: Rs.{totalAmount}</h1>
+          <Button onClick={handleOrder} 
+          loading={isLoading}>Place An Order</Button>
+        </div>
+      </div>
+      
+}
     </div>
   )
 }

@@ -1,32 +1,18 @@
-import { useGetProductsQuery } from '../products/productApi';
-import { Avatar, Button, Card, IconButton, Typography } from "@material-tailwind/react";
-import { baseUrl } from '../../app/mainApi';
-import { NavLink } from 'react-router';
-import RemoveButton from './RemoveButton';
+import { Button, Card, Typography } from "@material-tailwind/react";
+import { useGetUserOrderQuery } from "./orderApi.js";
+import { Link } from "react-router";
+const TABLE_HEAD = ["OrderId", "OrderDate", "TotalAmount", "Order Detail"];
 
-const TABLE_HEAD = ["image", "title", "_id", "edit", "delete"];
 
-export default function AdminPage() {
+export default function OrderPage({ user }) {
 
-  const { isLoading, error, data } = useGetProductsQuery();
-  console.log(data);
+  const { data, isLoading, error } = useGetUserOrderQuery(user.token);
 
   if (isLoading) return <h1>Loading...</h1>
-
-  if(error) return <h1>{error.data?.message || error?.error}</h1>
-
-
+ if(error) return <h1>{error.data?.message || error?.error}</h1>
+ console.log(data);
   return (
-    <div className=''>
-
-      <div className='flex justify-end my-5'>
-        <NavLink to={'/admin/products/add'}>
-          <Button color='purple'>Add Product</Button>
-        </NavLink>
-
-      </div>
-
-
+    <div className="col-span-2">
 
       <Card className="h-full w-full overflow-scroll">
         <table className="w-full min-w-max table-auto text-left">
@@ -49,30 +35,12 @@ export default function AdminPage() {
             </tr>
           </thead>
           <tbody>
-            {data.map(({ _id, title,image}, index) => {
+            {data.map(({ _id, totalAmount, createdAt }, index) => {
               const isLast = index === data.length - 1;
               const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
               return (
-                <tr key={name}>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      <Avatar src={`${baseUrl}${image}`} />
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                    >
-                      {title}
-                    </Typography>
-                  </td>
+                <tr key={_id}>
                   <td className={classes}>
                     <Typography
                       variant="small"
@@ -83,17 +51,27 @@ export default function AdminPage() {
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <NavLink to={`/admin/products/edit/${_id}`} >
-                      <IconButton size='sm' color='green'>
-                        <i className="fas fa-edit" />
-                      </IconButton>
-                    </NavLink>
-
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {createdAt}
+                    </Typography>
                   </td>
-
                   <td className={classes}>
-                    <RemoveButton id={_id} />
-
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-normal"
+                    >
+                      {totalAmount}
+                    </Typography>
+                  </td>
+                  <td className={classes}>
+                    <Link to ={`/orders/${_id}`}>
+                    <Button size="sm" variant="text">View Detail</Button>
+                    </Link>
                   </td>
                 </tr>
               );
@@ -101,7 +79,6 @@ export default function AdminPage() {
           </tbody>
         </table>
       </Card>
-
     </div>
   )
 }

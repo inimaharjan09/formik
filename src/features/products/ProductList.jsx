@@ -6,10 +6,8 @@ import { useNavigate } from 'react-router';
 export default function ProductList() {
   const nav = useNavigate();
   const { isLoading, error, data } = useGetProductsQuery();
-  if (isLoading) return <h1>Loading...</h1>
-
-  if (error) return <h1>{error}</h1>
-
+  // if (isLoading) return <h1>Loading...</h1>
+//if(error) return <h1>{error.data?.message || error?.error}</h1>
   return (
     <div className='grid grid-cols-6 my-6 gap-4'>
 

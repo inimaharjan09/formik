@@ -14,7 +14,7 @@ export default function Product() {
   const { data, isLoading, error } = useGetProductQuery(id);
 
   if (isLoading) return <h1>Loading...</h1>
-  if (error) return <h1>{error}</h1>
+  if(error) return <h1>{error.data?.message || error?.error}</h1>
 
   //console.log(data);
 
@@ -48,7 +48,7 @@ function ProductAddToCart({product}) {
 
   const handleCart =() => {
     dispatch(setToCart({ ...product, qty: count}));
-    nav('/carts');
+    nav('/cart');
     
   }
 
