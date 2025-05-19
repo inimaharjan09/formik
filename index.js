@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
 import mongoose from 'mongoose';
 import fileUpload from 'express-fileupload';
 import cors from 'cors';
@@ -42,10 +43,7 @@ mongoose.connect('mongodb+srv://inima09:June14inima@cluster0.rmpnkba.mongodb.net
     
     app.use('/api/products', productRoutes);
     app.use('/api/users', userRoutes);
-    
-    
-    
-    
+    app.use('/api/orders', orderRoutes);
     
     //path define file
     //response dine logic

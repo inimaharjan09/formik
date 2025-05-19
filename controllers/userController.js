@@ -16,10 +16,7 @@ export const login = async (req, res) => {
         }, 'secret');
         return res.status(200).json({
             token,
-            email: isExist.email,
       role: isExist.role,
-      username: isExist.username,
-      id: isExist.id
 
         });
 
@@ -39,5 +36,38 @@ export const register = async (req, res) => {
     }catch (err){
         return res.status(400).json({message: `${err}`});
 
+    }
+}
+
+
+export const getUserProfile = async (req, res) => {
+    const id = req.userId;
+    try{
+        const user= await User.findById(id);
+        return res.status(200).json({
+            username: user.username,
+            email: user.email, 
+            role: user.role,
+        });
+    } catch(err) {
+        return res.status(400).json({ message: `${err}`});
+
+    }
+}
+
+export const updateProfile = async (req, res) => {
+    const { username, email } = req.body;
+    const id = req.userId; 
+    try{
+        const user= await User.findById(id);
+       user.username = username || user.username;
+       user.email = email || user.email;
+       await user.save();
+        
+       return res.status(200).json({ message: 'profile updated successfully'});
+
+    } catch(err) {
+        return res.status(400).json({ message: `${err}`});
+        
     }
 }

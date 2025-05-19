@@ -23,7 +23,7 @@ export const getProducts = async (req, res) => {
         // console.log(qryStr.replace(/\b(gte|gt|lte|lt|eq)\b/g, match => `$${match}`))
         // console.log(queryObject);
         // {rating: {$gt: 4}}
-        console.log(req.query);
+        //console.log(req.query);
 
         
         let query = Product.find(queryObject);
